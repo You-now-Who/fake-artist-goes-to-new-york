@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "tsx --tsconfig tsconfig.server.json server/index.ts",
-    "build": "next build",
-    "start": "NODE_ENV=production tsx --tsconfig tsconfig.server.json server/index.ts",
+    "build": "next build && tsc --project tsconfig.server.json",
+    "start": "cross-env NODE_ENV=production node dist/server/index.js",
     "lint": "eslint"
   },
   "dependencies": {
@@ -25,6 +25,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/uuid": "^10.0.0",
+    "cross-env": "^10.1.0",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
