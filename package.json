@@ -2,6 +2,9 @@
   "name": "fake-artist-goes-to-new-york",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20.9.0"
+  },
   "scripts": {
     "dev": "tsx --tsconfig tsconfig.server.json server/index.ts",
     "build": "next build && tsc --project tsconfig.server.json",
