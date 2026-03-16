@@ -1,0 +1,119 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fffef7;
+  --foreground: #18181b;
+}
+
+/* Always light — disable dark mode override */
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-pixel: var(--font-pixel-display);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Pixel border box ─────────────────────────────────────────── */
+.pixel-box {
+  border: 2px solid #18181b;
+  box-shadow: 3px 3px 0 0 #18181b;
+  border-radius: 0;
+}
+
+.pixel-box-sm {
+  border: 2px solid #18181b;
+  box-shadow: 2px 2px 0 0 #18181b;
+  border-radius: 0;
+}
+
+/* ── Pixel button ─────────────────────────────────────────────── */
+.pixel-btn {
+  border: 2px solid #18181b;
+  box-shadow: 3px 3px 0 0 #18181b;
+  border-radius: 0;
+  cursor: pointer;
+  transition: box-shadow 0.06s ease, transform 0.06s ease;
+  user-select: none;
+}
+
+.pixel-btn:hover:not(:disabled) {
+  box-shadow: 1px 1px 0 0 #18181b;
+  transform: translate(2px, 2px);
+}
+
+.pixel-btn:active:not(:disabled) {
+  box-shadow: none;
+  transform: translate(3px, 3px);
+}
+
+.pixel-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* ── Pixel input ──────────────────────────────────────────────── */
+.pixel-input {
+  border: 2px solid #18181b;
+  border-radius: 0;
+  box-shadow: inset 1px 1px 0 0 rgba(0,0,0,0.08);
+  background: #fffef7;
+  color: #18181b;
+  outline: none;
+  transition: border-color 0.1s;
+}
+
+.pixel-input:focus {
+  border-color: #d97706;
+  box-shadow: inset 1px 1px 0 0 rgba(0,0,0,0.08), 0 0 0 2px #fde68a;
+}
+
+/* ── Pixel select ─────────────────────────────────────────────── */
+.pixel-select {
+  border: 2px solid #18181b;
+  border-radius: 0;
+  background: #fffef7;
+  color: #18181b;
+  outline: none;
+}
+
+.pixel-select:focus {
+  border-color: #d97706;
+}
+
+/* ── Pixel font ───────────────────────────────────────────────── */
+.font-pixel {
+  font-family: var(--font-pixel-display), "Courier New", monospace;
+  letter-spacing: -0.03em;
+}
+
+/* ── Canvas pixel frame ───────────────────────────────────────── */
+.canvas-frame {
+  border: 3px solid #18181b;
+  box-shadow: 5px 5px 0 0 #18181b;
+}
+
+.canvas-frame-active {
+  border: 3px solid #d97706;
+  box-shadow: 5px 5px 0 0 #d97706;
+}
+
+/* ── Pixel progress bar ───────────────────────────────────────── */
+.pixel-progress-track {
+  border: 2px solid #18181b;
+  background: #e4e4e7;
+  height: 12px;
+}
+
+.pixel-progress-fill {
+  height: 100%;
+  transition: width 0.1s linear;
+}
