@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation"
 import { useSocket } from "@/lib/use-socket"
 import { useGameStore } from "@/lib/game-store"
 import GameEventBridge from "@/components/GameEventBridge"
+import SoundManager from "@/components/SoundManager"
 import ChatPanel from "@/components/ChatPanel"
 import LobbyView from "@/components/views/LobbyView"
 import CategoryAssignView from "@/components/views/CategoryAssignView"
@@ -65,9 +66,14 @@ const RoomPage = () => {
     emit("room:join", { code, name: nameInput.trim() })
   }
 
-  // Always mount GameEventBridge so room:state events are never missed,
+  // Always mount GameEventBridge + SoundManager so events are never missed,
   // even before the main game UI renders
-  const eventBridge = <GameEventBridge />
+  const eventBridge = (
+    <>
+      <GameEventBridge />
+      <SoundManager />
+    </>
+  )
 
   // Show name prompt
   if (joinMode === "idle" || joinMode === "name_prompt") {

@@ -1,7 +1,8 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { DEFAULT_TURN_DURATION_MS } from "@/lib/game-logic"
+import { playSound, SOUNDS } from "@/lib/sounds"
 
 interface TurnTimerProps {
   endsAt: number | null
@@ -16,11 +17,22 @@ const TurnTimer = ({ endsAt, totalMs = DEFAULT_TURN_DURATION_MS }: TurnTimerProp
     return Math.max(0, endsAt - Date.now())
   })
 
+  // Track whether countdown sound has already fired for this turn
+  const countdownFiredRef = useRef(false)
+  useEffect(() => { countdownFiredRef.current = false }, [endsAt])
+
   useEffect(() => {
     if (!endsAt || !isFinite(endsAt)) return
 
-    const tick = () => setRemaining(Math.max(0, endsAt - Date.now()))
-    tick() // sync immediately on mount / whenever endsAt changes
+    const tick = () => {
+      const r = Math.max(0, endsAt - Date.now())
+      setRemaining(r)
+      if (r > 0 && r <= 3000 && !countdownFiredRef.current) {
+        countdownFiredRef.current = true
+        playSound(SOUNDS.countdown, 0.7)
+      }
+    }
+    tick()
     const id = setInterval(tick, 100)
     return () => clearInterval(id)
   }, [endsAt])
