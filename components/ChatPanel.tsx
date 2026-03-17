@@ -32,7 +32,7 @@ const ChatPanel = ({ messages, myId, onSend }: ChatPanelProps) => {
   }
 
   return (
-    <div className="flex flex-col h-full pixel-box bg-white overflow-hidden">
+    <div className="flex flex-col h-full bg-white overflow-hidden">
       <div className="px-2 py-1.5 border-b-2 border-zinc-900 bg-zinc-900">
         <p className="text-xs font-pixel text-amber-300" style={{ fontSize: "8px" }}>CHAT</p>
       </div>
@@ -60,7 +60,7 @@ const ChatPanel = ({ messages, myId, onSend }: ChatPanelProps) => {
       </div>
 
       <div className="p-1.5 border-t-2 border-zinc-300">
-        <div className="flex gap-1">
+        <div className="flex gap-1 min-w-0">
           <input
             type="text"
             value={input}
@@ -68,12 +68,12 @@ const ChatPanel = ({ messages, myId, onSend }: ChatPanelProps) => {
             onKeyDown={handleKeyDown}
             placeholder="Message…"
             maxLength={200}
-            className="flex-1 text-xs px-2 py-1.5 pixel-input"
+            className="flex-1 min-w-0 text-xs px-2 py-1.5 pixel-input"
           />
           <button
             onClick={handleSend}
             disabled={!input.trim()}
-            className="pixel-btn px-2 py-1 bg-amber-400 text-amber-950 font-black text-xs"
+            className="pixel-btn shrink-0 px-2 py-1 bg-amber-400 text-amber-950 font-black text-xs"
             aria-label="Send"
           >
             ▶

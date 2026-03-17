@@ -142,6 +142,20 @@ const DrawingView = () => {
       {/* ── Main area ─────────────────────────────────────────────────── */}
       <div className="flex flex-1 gap-3 min-h-0">
 
+        {/* Left sidebar — player list */}
+        <div className="hidden lg:flex flex-col gap-2 shrink-0 w-36 min-h-0">
+          <div className="pixel-box bg-white p-2 overflow-y-auto flex-1">
+            <p className="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-2 font-pixel" style={{ fontSize: "8px" }}>
+              Players
+            </p>
+            <PlayerList
+              players={room.players}
+              currentTurnId={currentTurnPlayerId}
+              myId={myId}
+            />
+          </div>
+        </div>
+
         {/* Canvas column */}
         <div className="flex flex-col flex-1 gap-2 min-w-0 min-h-0">
 
@@ -211,19 +225,6 @@ const DrawingView = () => {
           </div>
         </div>
 
-        {/* Right sidebar — player list */}
-        <div className="hidden lg:flex flex-col gap-2 shrink-0 w-44 min-h-0">
-          <div className="pixel-box bg-white p-2 overflow-y-auto flex-1">
-            <p className="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-2 font-pixel" style={{ fontSize: "8px" }}>
-              Players
-            </p>
-            <PlayerList
-              players={room.players}
-              currentTurnId={currentTurnPlayerId}
-              myId={myId}
-            />
-          </div>
-        </div>
       </div>
     </div>
   )
