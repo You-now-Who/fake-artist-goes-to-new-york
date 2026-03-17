@@ -8,8 +8,6 @@
   "scripts": {
     "dev": "tsx --tsconfig tsconfig.server.json server/index.ts",
     "build": "next build && tsc --project tsconfig.server.json",
-    "build:frontend": "next build",
-    "build:server": "tsc --project tsconfig.server.json",
     "start": "cross-env NODE_ENV=production node dist/server/index.js",
     "lint": "eslint"
   },

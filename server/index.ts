@@ -5,7 +5,7 @@ import "./env-setup"
 import { createServer } from "http"
 import next from "next"
 import { Server, Socket } from "socket.io"
-import { v4 as uuidv4 } from "uuid"
+import { randomUUID as uuidv4 } from "crypto"
 import {
   getRoom, saveRoom, deleteRoom,
   pushStroke, getStrokes, clearStrokes,

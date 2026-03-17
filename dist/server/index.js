@@ -10,7 +10,7 @@ require("./env-setup");
 const http_1 = require("http");
 const next_1 = __importDefault(require("next"));
 const socket_io_1 = require("socket.io");
-const uuid_1 = require("uuid");
+const crypto_1 = require("crypto");
 const redis_1 = require("../lib/redis");
 const game_logic_1 = require("../lib/game-logic");
 const room_codes_1 = require("../lib/room-codes");
@@ -272,7 +272,7 @@ app.prepare().then(() => {
             if (!((_a = stroke === null || stroke === void 0 ? void 0 : stroke.points) === null || _a === void 0 ? void 0 : _a.length))
                 return;
             const validatedStroke = {
-                id: (0, uuid_1.v4)(),
+                id: (0, crypto_1.randomUUID)(),
                 playerId: socket.id,
                 points: stroke.points.map((p) => ({
                     x: Math.min(1, Math.max(0, p.x)),
@@ -354,7 +354,7 @@ app.prepare().then(() => {
             if (!player)
                 return;
             const msg = {
-                id: (0, uuid_1.v4)(),
+                id: (0, crypto_1.randomUUID)(),
                 playerId: socket.id,
                 playerName: player.name,
                 text: text.trim().slice(0, 200),
