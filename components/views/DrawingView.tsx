@@ -7,7 +7,6 @@ import DrawingCanvas from "@/components/DrawingCanvas"
 import BrushToolbar from "@/components/BrushToolbar"
 import TurnTimer from "@/components/TurnTimer"
 import PlayerList from "@/components/PlayerList"
-import ChatPanel from "@/components/ChatPanel"
 import type { Stroke } from "@/types/game"
 
 const DrawingView = () => {
@@ -19,7 +18,6 @@ const DrawingView = () => {
   const [brushWidth, setBrushWidth] = useState(4)
   const [brushOpacity, setBrushOpacity] = useState(1)
   const [pendingStroke, setPendingStroke] = useState<Stroke | null>(null)
-  const [showChat, setShowChat] = useState(false)
 
   // Ref keeps auto-submit timeout from capturing stale pendingStroke
   const pendingStrokeRef = useRef<Stroke | null>(null)
@@ -92,8 +90,6 @@ const DrawingView = () => {
     emit("turn:skip")
   }
 
-  const handleChatSend = (text: string) => emit("chat:message", { text })
-
   if (!room) return null
 
   return (
@@ -141,13 +137,6 @@ const DrawingView = () => {
           </div>
         </div>
 
-        <button
-          onClick={() => setShowChat(!showChat)}
-          className="lg:hidden pixel-btn bg-zinc-100 px-2 py-1 text-xs font-bold text-zinc-700"
-          aria-label="Toggle chat"
-        >
-          💬
-        </button>
       </div>
 
       {/* ── Main area ─────────────────────────────────────────────────── */}
@@ -222,9 +211,9 @@ const DrawingView = () => {
           </div>
         </div>
 
-        {/* Right sidebar */}
-        <div className={`flex flex-col gap-2 shrink-0 w-56 min-h-0 ${showChat ? "flex" : "hidden lg:flex"}`}>
-          <div className="pixel-box bg-white p-2 overflow-y-auto" style={{ maxHeight: "40%" }}>
+        {/* Right sidebar — player list */}
+        <div className="hidden lg:flex flex-col gap-2 shrink-0 w-44 min-h-0">
+          <div className="pixel-box bg-white p-2 overflow-y-auto flex-1">
             <p className="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-2 font-pixel" style={{ fontSize: "8px" }}>
               Players
             </p>
@@ -232,13 +221,6 @@ const DrawingView = () => {
               players={room.players}
               currentTurnId={currentTurnPlayerId}
               myId={myId}
-            />
-          </div>
-          <div className="flex-1 min-h-0">
-            <ChatPanel
-              messages={room.chatMessages ?? []}
-              myId={myId ?? null}
-              onSend={handleChatSend}
             />
           </div>
         </div>

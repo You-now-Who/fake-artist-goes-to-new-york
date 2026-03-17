@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation"
 import { useSocket } from "@/lib/use-socket"
 import { useGameStore } from "@/lib/game-store"
 import GameEventBridge from "@/components/GameEventBridge"
+import ChatPanel from "@/components/ChatPanel"
 import LobbyView from "@/components/views/LobbyView"
 import CategoryAssignView from "@/components/views/CategoryAssignView"
 import DrawingView from "@/components/views/DrawingView"
@@ -26,6 +27,10 @@ const RoomPage = () => {
 
   const [joinMode, setJoinMode] = useState<JoinMode>("idle")
   const [nameInput, setNameInput] = useState("")
+  const [showChat, setShowChat] = useState(false)
+
+  const myId = room?.players.find((p) => p.name === playerName)?.id ?? null
+  const handleChatSend = (text: string) => emit("chat:message", { text })
 
   // On mount, decide if we need to prompt for name or auto-rejoin
   useEffect(() => {
@@ -167,19 +172,47 @@ const RoomPage = () => {
           {gameState === "fake_guess" && "GUESSING"}
           {gameState === "scores" && "RESULTS"}
         </div>
+        {/* Mobile chat toggle */}
+        <button
+          onClick={() => setShowChat((v) => !v)}
+          className="lg:hidden pixel-btn bg-zinc-100 px-2 py-1 text-xs font-bold text-zinc-700 relative"
+          aria-label="Toggle chat"
+        >
+          💬{(room.chatMessages?.length ?? 0) > 0 && showChat === false && (
+            <span className="absolute -top-1 -right-1 w-2 h-2 bg-amber-400 border border-zinc-900" />
+          )}
+        </button>
       </header>
 
-      {/* Main content */}
-      <main className="flex-1 p-3 overflow-hidden" style={{ minHeight: 0 }}>
-        <div className="h-full">
-          {gameState === "lobby" && <LobbyView />}
-          {gameState === "category_assign" && <CategoryAssignView />}
-          {gameState === "drawing_turns" && <DrawingView />}
-          {gameState === "voting" && <VotingView />}
-          {gameState === "fake_guess" && <FakeGuessView />}
-          {gameState === "scores" && <ScoresView />}
-        </div>
-      </main>
+      {/* Body: game content + persistent chat sidebar */}
+      <div className="flex flex-1 overflow-hidden" style={{ minHeight: 0 }}>
+
+        {/* Main game content */}
+        <main className="flex-1 p-3 overflow-hidden min-w-0" style={{ minHeight: 0 }}>
+          <div className="h-full">
+            {gameState === "lobby" && <LobbyView />}
+            {gameState === "category_assign" && <CategoryAssignView />}
+            {gameState === "drawing_turns" && <DrawingView />}
+            {gameState === "voting" && <VotingView />}
+            {gameState === "fake_guess" && <FakeGuessView />}
+            {gameState === "scores" && <ScoresView />}
+          </div>
+        </main>
+
+        {/* Persistent chat panel — sidebar on lg, slide-in on mobile */}
+        <aside className={`
+          shrink-0 border-l-2 border-zinc-900 flex flex-col
+          w-56
+          lg:flex
+          ${showChat ? "flex" : "hidden"}
+        `} style={{ minHeight: 0 }}>
+          <ChatPanel
+            messages={room.chatMessages ?? []}
+            myId={myId}
+            onSend={handleChatSend}
+          />
+        </aside>
+      </div>
     </div>
   )
 }

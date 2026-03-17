@@ -50,8 +50,12 @@ const GameEventBridge = () => {
       dispatch({ type: "SET_ERROR", payload: (data as { message: string }).message })
     })
 
+    const off9 = on("chat:message", (data: unknown) => {
+      dispatch({ type: "APPEND_CHAT_MESSAGE", payload: data as ChatMessage })
+    })
+
     return () => {
-      off1(); off2(); off3(); off4(); off5(); off6(); off7(); off8()
+      off1(); off2(); off3(); off4(); off5(); off6(); off7(); off8(); off9()
     }
   }, [on, dispatch])
 

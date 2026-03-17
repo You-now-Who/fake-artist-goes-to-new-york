@@ -32,6 +32,7 @@ type Action =
   | { type: "SET_ROUND_RESULT"; payload: RoundResult }
   | { type: "SET_FAKE_GUESS_PROMPT"; payload: { endsAt: number } }
   | { type: "SET_ERROR"; payload: string | null }
+  | { type: "APPEND_CHAT_MESSAGE"; payload: ChatMessage }
   | { type: "RESET" }
 
 const initialState: GameStoreState = {
@@ -72,6 +73,15 @@ const reducer = (state: GameStoreState, action: Action): GameStoreState => {
       return { ...state, fakeGuessPrompt: action.payload }
     case "SET_ERROR":
       return { ...state, error: action.payload }
+    case "APPEND_CHAT_MESSAGE":
+      if (!state.room) return state
+      return {
+        ...state,
+        room: {
+          ...state.room,
+          chatMessages: [...(state.room.chatMessages ?? []).slice(-49), action.payload],
+        },
+      }
     case "RESET":
       return initialState
     default:
